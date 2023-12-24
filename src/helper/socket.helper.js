@@ -26,9 +26,14 @@ function exitRoom(id) {
   }
 }
 
+function getActiveUser(id) {
+  return roomUsers.find(user => user.id === id);
+}
+
 module.exports = {
   formatMessage,
   newUser,
   getIndividualRoomUsers,
-  exitRoom
+  exitRoom,
+  getActiveUser
 }

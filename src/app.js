@@ -71,6 +71,30 @@ io.on('connection', (socket) => {
       users: socketHelper.getIndividualRoomUsers(user.room),
     });
   });
+
+  socket.on('chatMessage', ({ username, room, msg }) => {
+    const user = socketHelper.getActiveUser(socket.id);
+    console.log('details', username, room, msg);
+    io.to(user.room).emit(
+      'message',
+      socketHelper.formatMessage(user.username, msg)
+    );
+  });
+
+  socket.on('disconnect', () => {
+    let user = socketHelper.exitRoom(socket.id);
+    io.to(user.room).emit(
+      'message',
+      socketHelper.formatMessage(
+        'Airtribe',
+        `${user.username} has left the room.`
+      )
+    );
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: socketHelper.getIndividualRoomUsers(user.room),
+    });
+  });
 });
 
 /* Created and listen Server on PORT */

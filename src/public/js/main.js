@@ -55,3 +55,28 @@ function outputUsers(users) {
     userList.appendChild(li);
   });
 }
+
+chatForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let msg = e.target.elements.msg.value;
+  msg = msg.trim();
+  if (!msg) return false;
+  // Emit message to server
+  socket.emit('chatMessage', {
+    username,
+    room,
+    msg
+  });
+
+  e.target.elements.msg.value = '';
+  e.target.elements.msg.focus();
+});
+
+//Prompt the user before leave chat room
+document.getElementById('leave-btn').addEventListener('click', () => {
+  const leaveRoom = confirm('Are you sure you want to leave the chatroom?');
+  if (leaveRoom) {
+    window.location = '../index.html';
+  } else {
+  }
+});
