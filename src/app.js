@@ -36,6 +36,7 @@ io.on('connection', (socket) => {
     2. Socket should have some track how all users are joined
     3. Airtribe default message going to send only to the newly joined user.
     4. Broadcast all the existing users: has someone joined the room excluding the user itself.
+    5. Broadcast the updated list of users.
     */
     // Step 1:
     const user = socketHelper.newUser(socket.id, username, room);
@@ -63,6 +64,12 @@ io.on('connection', (socket) => {
           `${user.username} has joined the room`
         )
       );
+
+    // Step 5:
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: socketHelper.getIndividualRoomUsers(user.room),
+    });
   });
 });
 

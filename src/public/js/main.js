@@ -3,15 +3,27 @@ const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
-const { username, room } = qs.parse(location.search, {
-  ignoreQueryPrefix: true,
-});
+const searchParams = new URLSearchParams(window.location.search);
+const username = searchParams.get('username');
+const room = searchParams.get('room');
+// const { username, room } = Qs.parse(location.search, {
+//   ignoreQueryPrefix: true,
+// });
 
 /* Creating and Initiating the connect to socket.io */
 const socket = io();
 
 /* Initiate connection and emit message to socket io that you want to join a room */
 socket.emit('joinRoom', { username, room });
+
+socket.on('message', (message) => {
+  outputMessage(message);
+});
+
+socket.on('roomUsers', (user) => {
+  outputRoomName(user.room);
+  outputUsers(user.users);
+});
 
 function outputMessage(message) {
   const div = document.createElement('div');
