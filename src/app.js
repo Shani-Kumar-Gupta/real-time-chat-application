@@ -7,6 +7,7 @@ const { APP_ERROR } = require('./constants');
 const http = require('http');
 const path = require('path');
 const socketio = require('socket.io');
+const { socketHelper } = require('./helper');
 
 /* Initialized app with express */
 const app = express();
@@ -28,8 +29,41 @@ const io = socketio(server);
 ?socker.on() => used to receive an event
 ?socket.emit() => used to emit the event
 */
-io.on('connection', socket => {
-  socket.on('joinRoom', ({ username, room }) => {});
+io.on('connection', (socket) => {
+  socket.on('joinRoom', ({ username, room }) => {
+    /*
+    1. Create a new user with id, username and room in db.
+    2. Socket should have some track how all users are joined
+    3. Airtribe default message going to send only to the newly joined user.
+    4. Broadcast all the existing users: has someone joined the room excluding the user itself.
+    */
+    // Step 1:
+    const user = socketHelper.newUser(socket.id, username, room);
+    logger.info(`Server has created a new user ${user}`);
+
+    // Step 2:
+    socket.join(user.room);
+
+    // Step 3:
+    socket.emit(
+      'message',
+      socketHelper.formatMessage(
+        'Chit Chat',
+        'Messages are limited to this room only!'
+      )
+    );
+
+    // Step 4:
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        socketHelper.formatMessage(
+          'Chit Chat',
+          `${user.username} has joined the room`
+        )
+      );
+  });
 });
 
 /* Created and listen Server on PORT */

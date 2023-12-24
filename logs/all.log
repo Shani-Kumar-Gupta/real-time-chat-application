@@ -1,0 +1,8 @@
+2023-12-24 16:59:20:5920 [32minfo[39m: [32mServer listening on PORT: 3000[39m
+2023-12-24 16:59:25:5925 [35mhttp[39m: [35m::1 GET /favicon.ico 404 150 - 1.553 ms[39m
+[35m[39m
+2023-12-24 17:16:55:1655 [32minfo[39m: [32mServer listening on PORT: 3000[39m
+2023-12-24 17:20:46:2046 [32minfo[39m: [32mServer listening on PORT: 3000[39m
+2023-12-24 17:21:34:2134 [32minfo[39m: [32mServer listening on PORT: 3000[39m
+2023-12-24 17:22:52:2252 [32minfo[39m: [32mServer listening on PORT: 3000[39m
+2023-12-24 17:27:05:275 [32minfo[39m: [32mServer listening on PORT: 3000[39m

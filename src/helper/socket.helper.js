@@ -25,3 +25,10 @@ function exitRoom(id) {
     return roomUsers.splice(index, 1)[0];
   }
 }
+
+module.exports = {
+  formatMessage,
+  newUser,
+  getIndividualRoomUsers,
+  exitRoom
+}
